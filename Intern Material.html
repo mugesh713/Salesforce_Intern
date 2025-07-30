@@ -1,0 +1,513 @@
+  
+Here is your corrected and aligned version of the notes for Apex and Salesforce basics. I’ve kept all content intact and only fixed spelling, grammar, punctuation, and formatting to make it easier to study:
+________________________________________
+OBJECT, TAB, FIELD, RECORD, APP
+•	Object is similar to a database table – e.g., Account, Sales, Lead, Contact.
+•	Standard Objects like Salesforce Sales and Salesforce Service.
+•	Custom Object in Salesforce is created as per the requirement of the project.
+Object Fields
+•	Label – the name of the object.
+•	Plural Label – the name with "s" added.
+•	API Name – in standard objects, the name is displayed as it is; in custom objects, __c will be added.
+o	Plural name is used for Tabs.
+o	API Name is used in Flow, Apex, etc.
+________________________________________
+Fields
+•	Like database columns; various data types are used to create fields.
+•	Entering values in fields results in new record creation.
+________________________________________
+Records
+•	Records are rows in an object.
+•	Each record has a unique ID.
+•	You can Create, Edit, View, and Delete records in Salesforce.
+________________________________________
+App
+•	App is a container for all Objects and Tabs.
+•	App consists of Name, Logo, and an ordered set of Tabs.
+________________________________________
+Day 2: Apex Basics
+Integer x = 5, y = 6, z;
+z = x + y;
+System.debug('Sum = ' + z);
+Class Example
+Rectangle rec = new Rectangle(); // instance creation
+rec.area(); // calling method
+Custom Class with Constructor
+RectangleWithConstructor rec = new RectangleWithConstructor(); // instance creation
+rec.area();
+rec.perimeter();
+Parameterized Constructor
+RectangleWithConstructor rec = new RectangleWithConstructor(4, 5);
+rec.area();
+rec.perimeter();
+________________________________________
+Class Definitions
+Without Constructor
+public class Rectangle {
+    public void area() {
+        Decimal length = 5.5, breadth = 6;
+        Decimal a = length * breadth;
+        System.debug('Area = ' + a);
+    }
+}
+With Default Constructor
+public class RectangleWithConstructor {
+    Decimal length, breadth;
+
+    public RectangleWithConstructor() {
+        length = 5.5;
+        breadth = 6;
+    }
+
+    public void area() {
+        Decimal a = length * breadth;
+        System.debug('Area = ' + a);
+    }
+
+    public void perimeter() {
+        Decimal p = 2 * (length + breadth);
+        System.debug('Perimeter = ' + p);
+    }
+}
+With Parameterized Constructor
+public class RectangleWithConstructor {
+    Decimal length, breadth;
+
+    public RectangleWithConstructor(Decimal l, Decimal b) {
+        length = l;
+        breadth = b;
+    }
+
+    public void area() {
+        Decimal a = length * breadth;
+        System.debug('Area = ' + a);
+    }
+
+    public void perimeter() {
+        Decimal p = 2 * (length + breadth);
+        System.debug('Perimeter = ' + p);
+    }
+}
+________________________________________
+Day 3: Static Method Demo
+DemoApex.method1();
+DemoApex.method2();
+DemoApex.method3();
+
+Calculator.addition();
+Calculator.subtraction();
+Calculator.multiplication(10, 2);
+DemoApex Class
+public class DemoApex {
+    public static void method1() {
+        Boolean isActive = false;
+        System.debug('Value of isActive: ' + isActive);
+    }
+
+    public static void method2() {
+        String fname = 'Sanjay', lname = 'Sindhuja';
+        System.debug('Name = ' + fname + ' ' + lname);
+    }
+
+    public static void method3() {
+        ID accId = '005dL00000HKt8hQAD';
+        System.debug('Id = ' + accId);
+    }
+}
+Calculator Class
+public class Calculator {
+    public static void addition() {
+        Integer var1 = 5, var2 = 10, sum;
+        sum = var1 + var2;
+        System.debug('Addition = ' + sum);
+    }
+
+    public static void subtraction() {
+        Integer var1 = 5, var2 = 10, sub;
+        sub = var1 - var2;
+        System.debug('Subtraction = ' + sub);
+    }
+
+    public static void multiplication(Integer var1, Integer var2) {
+        Integer mul = var1 * var2;
+        System.debug('Multiplication = ' + mul);
+    }
+}
+________________________________________
+sObject as Data Type
+Anonymous Window
+Account acc = new Account();
+acc.Name = 'SGTS';
+acc.Rating = 'Hot';
+acc.Active__c = 'Yes'; // Only if 'Yes' is a valid picklist value
+
+insert acc;
+Apex Class
+public class AccountRecord {
+    public static void insertData() {
+        Account acc = new Account();
+        acc.Name = 'SGTS 2';
+        acc.Rating = 'Warm';
+        acc.Active__c = 'Yes';
+        insert acc;
+    }
+}
+// Run using: AccountRecord.insertData();
+________________________________________
+Day 4: Account-Contact Relationship
+public class AccountRecord {
+    public static ID insertAccount(String name, String rating, String active) {
+        Account acc = new Account();
+        acc.Name = name;
+        acc.Rating = rating;
+        acc.Active__c = active;
+        insert acc;
+        return acc.Id;
+    }
+
+    public static void insertContact() {
+        Id accId = insertAccount('CGST', 'Weather', 'Yes');
+        Contact con = new Contact(FirstName = 'Contact 101', LastName = 'Con201');
+        con.AccountId = accId;
+        insert con;
+    }
+}
+// AccountRecord.insertContact();
+________________________________________
+Account with Related Contact and Opportunity
+public class AccountRecord {
+    public static void insertAccountWithConAndOpp(String name, String rating, String active) {
+        Account acc = new Account();
+        acc.Name = name;
+        acc.Rating = rating;
+        acc.Active__c = active;
+        insert acc;
+
+        Contact con = new Contact(FirstName = 'Contact101', LastName = 'Con 201');
+        con.AccountId = acc.Id;
+        insert con;
+
+        Opportunity opp = new Opportunity();
+        opp.Name = 'Opp 101';
+        opp.CloseDate = System.today();
+        opp.StageName = 'Prospecting';
+        opp.AccountId = acc.Id;
+        insert opp;
+    }
+}
+// AccountRecord.insertAccountWithConAndOpp('RAGU', 'Fit', 'Yes');
+________________________________________
+Day 5: Conditional Statements
+public class ConditionalStmtDemo {
+
+    public static void logicalOperatorsDemo() {
+        Integer num1 = 10, num2 = 30;
+
+        if (num1 > 5 || num2 > 100) {
+            System.debug('true');
+        } else {
+            System.debug('false');
+        }
+    }
+
+    public static void elseifLadderDemo(Integer num) {
+        if (num > 0) {
+            System.debug('Number is positive');
+        } else if (num == 0) {
+            System.debug('Number is zero');
+        } else {
+            System.debug('Number is Negative');
+        }
+    }
+
+    public static void nestedIfDemo(Integer num) {
+        if (num >= 0) {
+            if (num > 0) {
+                System.debug('Number is positive');
+            } else {
+                System.debug('Number is Zero');
+            }
+        } else {
+            System.debug('Number is negative');
+        }
+    }
+
+    public static void checkEvenOdd(Integer num) {
+        if (Math.mod(num, 2) == 0) {
+            System.debug('Number is Even');
+        } else {
+            System.debug('Number is Odd');
+        }
+    }
+
+    public static void max(Integer num1, Integer num2) {
+        if (num1 > num2) {
+            System.debug('Num1 is max as compared to Num2');
+        } else {
+            System.debug('Num2 is max as compared to Num1');
+        }
+    }
+
+    public static void checkEligibility(Integer age) {
+        if (age >= 18) {
+            System.debug('You are eligible to vote');
+        } else {
+            System.debug('You are not eligible to vote');
+        }
+    }
+}
+________________________________________
+Day 6: Loops
+For Loop
+public class LoopDemo {
+
+    public static void sumOfNaturalNums(Integer n) {
+        Integer sum = 0;
+        for (Integer i = 1; i <= n; i++) {
+            sum += i;
+        }
+        System.debug('Sum = ' + sum);
+    }
+
+    public static void forDemo() {
+        for (Integer i = 1; i <= 10; i++) {
+            System.debug(i);
+        }
+    }
+
+    public static void evenNum(Integer n) {
+        for (Integer i = 1; i <= n; i++) {
+            if (Math.mod(i, 2) == 0) {
+                System.debug(i);
+            }
+        }
+    }
+
+    public static void table(Integer n) {
+        for (Integer i = 1; i <= 10; i++) {
+            System.debug(n + ' * ' + i + ' = ' + (n * i));
+        }
+    }
+}
+While Loop
+public class LoopDemo {
+    public static void tableWithWhile(Integer n) {
+        Integer i = 1;
+        while (i < 10) {
+            System.debug(n + ' * ' + i + ' = ' + (n * i));
+            i++;
+        }
+    }
+}
+________________________________________
+Loop with List, Set, and Map
+public class LoopDemo {
+
+    public static void showList() {
+        List<Account> accList = new List<Account>();
+        Set<Id> accIds = new Set<Id>();
+        Map<Id, Account> accMap = new Map<Id, Account>();
+
+        accList = [SELECT Id, Name FROM Account LIMIT 5];
+
+        if (accList.size() > 0) {
+            for (Account acc : accList) {
+                System.debug(acc.Id + ' - ' + acc.Name);
+                accIds.add(acc.Id);
+                accMap.put(acc.Id, acc);
+            }
+        }
+
+        System.debug('Display data through set');
+        for (Id accId : accIds) {
+            System.debug(accId);
+        }
+
+        System.debug('Map based on keys');
+        for (Id accId : accMap.keySet()) {
+            System.debug(accId);
+        }
+
+        System.debug('Map based on values');
+        for (Account acc : accMap.values()) {
+            System.debug(acc);
+        }
+    }
+}
+
+Trigger in Salesforce
+•	Trigger is used to perform operations that cannot be done with point-and-click tools in Salesforce.
+•	Triggers can be created for both Standard and Custom Objects.
+Types of Triggers
+•	Before Trigger – used to update or validate values before saving to DB.
+•	After Trigger – used to access values that are set by the system, and after the record is inserted.
+
+Syntax
+•	trigger trigger_name on Object_Name(trigger_events){
+}
+Example
+Trigger AccountTrigger on Account(before insert){
+System.debug(‘Trigger before insert’);
+}
+Account acc = new Account(Name=’Test’);
+Insert acc;
+Trigger Context variable
+	Implicit variable that allow developer to access run-time context.Trigger class
+isExecuting
+	Returns true if the current context of apex code is trigger
+isInsert
+	Returns true if trigger was fired due to insert operation from salesforce IT,Apex
+isUpdate
+	Returns true if trigger was fired due to an update operation from salesforce IT,Apex
+isDelete
+	Returns true if trigger was fired due to delete operation
+isBefore
+	Returns true if the trigger was fired before the record was saved
+isAfter
+	Returns true if the trigger was fired after a record were saved
+isUndelete
+	Returns true if the trigger was fired after a record is recovered from recycle bin
+Size
+	Total number of records in trigger invocation,both old and new
+new
+	Return a list of new versions of sObject records
+	Records modified in before trigger
+newMap
+	A map of ids to the new versions of sObject record
+Old
+	Returns a list of old version of sObject record
+	Records modified in after trigger
+oldMap
+	Map of ids to the old versions of sObject records
+Eg
+trigger AccountTrigger on Account (before insert) {
+    for(Account acc : Trigger.new){
+        acc.Description = 'Test Description'; 
+    }
+}  
+Call Apex Method through Trigger
+trigger AccountTrigger on Account (before insert,before update,after insert) {
+    if(Trigger.isInsert){
+        if(Trigger.isBefore){
+            AccountTriggerHandler.beforeInsert(Trigger.New);
+        }else if(Trigger.isAfter){
+            //
+        }
+    }
+    else if(Trigger.isUpdate){
+        //call
+    }
+}/////Trigger
+public class AccountTriggerHandler {
+    public static void beforeInsert(List<Account> newList){
+        for(Account acc : newList){
+            acc.Description = 'Test Description';
+        }
+    }
+}//class
+Before insert 
+If Account Industry is not null and having value as ‘Media’ then populate Rating as Hot
+After
+Create related Opportunity when Account is created
+
+trigger AccountTrigger on Account (before insert,after insert) {
+    if(Trigger.isInsert){
+        if(Trigger.isBefore){
+            AccountTriggerHandler.UpdateRating(Trigger.New);
+        }else if(Trigger.isAfter){
+            AccountTriggerHandler.createRelatedOpp(Trigger.New);
+        }
+    }
+}
+
+
+public class AccountTriggerHandler {
+    public static void UpdateRating(List<Account> newList){
+        for(Account acc : newList){
+            if(acc.Industry != null && acc.Industry == 'Media'){
+                acc.Rating = 'Hot';
+            }
+        }
+    }
+    public static void createRelatedOpp(List<Account> newList){
+        List<Opportunity> oppToBeInserted = new List<Opportunity>();
+        
+        for(Account acc : newList){
+            Opportunity opp = new Opportunity();
+            opp.Name = acc.Name;
+            opp.AccountId = acc.Id;
+            opp.StageName = 'Prospecting';
+            opp.CloseDate = System.today();
+            oppToBeInserted.add(opp);
+        }
+        if(!oppToBeInserted.isEmpty()){
+            insert oppToBeInserted;
+        }
+    }
+}
+
+Before Update
+If account phone is updated the put update message in description
+After Update
+If Account phone is updated then populate that on all related opportunities
+
+trigger AccountTrigger on Account (before insert,after insert,after update,before update) {
+    if(Trigger.isInsert){
+        if(Trigger.isBefore){
+            AccountTriggerHandler.UpdateRating(Trigger.New);
+        }else if(Trigger.isAfter){
+            AccountTriggerHandler.createRelatedOpp(Trigger.New);
+        }
+    }
+    if(Trigger.isUpdate){
+        if(Trigger.isBefore){
+            AccountTriggerHandler.UpdatePhoneDescription(Trigger.New,Trigger.oldMap);
+        }else if(Trigger.isAfter){
+           // AccountTriggerHandler.updateRelatedOppPhone(Trigger.New);
+        }
+    }
+}
+
+
+public class AccountTriggerHandler {
+    public static void updateRating(List<Account> newList) {
+        for(Account acc : newList) {
+            if(acc.Industry != null && acc.Industry == 'Media') {
+                acc.Rating = 'Hot';
+            }
+        }
+    }
+    
+    public static void createRelatedOpp(List<Account> newList) {
+        List<Opportunity> oppToBeInserted = new List<Opportunity>();
+        
+        for(Account acc : newList) {
+            Opportunity opp = new Opportunity();
+            opp.Name = acc.Name + ' Opportunity';
+            opp.AccountId = acc.Id;
+            opp.StageName = 'Prospecting';
+            opp.CloseDate = System.today().addDays(30);
+            oppToBeInserted.add(opp);
+        }
+        
+        if(!oppToBeInserted.isEmpty()) {
+            try {
+                insert oppToBeInserted;
+            } catch(Exception e) {
+                System.debug('Error creating opportunities: ' + e.getMessage());
+            }
+        }
+    }
+    
+    public static void updatePhoneDescription(List<Account> newList, Map<Id,Account> oldMap) {
+        if(oldMap == null) return;
+        
+        for(Account acc : newList) {
+            Account oldAcc = oldMap.get(acc.Id);
+            if(oldAcc != null && acc.Phone != oldAcc.Phone) {
+                acc.Description = 'Phone was updated from ' + oldAcc.Phone + ' to ' + acc.Phone;
+            }
+        }
+    }
+}
+
