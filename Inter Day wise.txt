@@ -551,3 +551,157 @@ Monitor success with:
 
 **Tip**: Refine prompts based on metrics (e.g., fewer steps = higher completion).
 
+
+////DAY 7
+# **Core Concepts of Lightning Reports and Dashboards**
+
+## **1. Understanding Reports and Dashboards**
+### **Why Reports and Dashboards?**
+- Businesses use reports and dashboards to answer critical questions using Salesforce data.
+- Reports provide structured data analysis, while dashboards visualize key metrics.
+- Example business questions:
+  - Which products are top sellers?
+  - Who are the highest-value prospects?
+  - Which marketing campaigns are most successful?
+
+### **Phrasing Business Needs as Reporting Questions**
+- **Example:**  
+  - **Original Question:** "Which products are top sellers?"  
+  - **Follow-up Questions:**  
+    - Revenue or quantity-based?  
+    - Grouped by product family?  
+    - Date range?  
+    - Include inactive products?  
+  - **Final Criteria:**  
+    - Report Type: Opportunities with Products  
+    - Format: Summary  
+    - Grouping: Product Family  
+    - Filters: Active products, Closed Won opportunities  
+
+---
+
+## **2. What is a Report?**
+- A **report** is a structured list of records that meet defined criteria.
+- **Key Features:**
+  - Filter, group, and perform calculations.
+  - Display data in charts.
+  - Stored in folders with access controls.
+- **Example Use Case:**  
+  - Filtering Closed Won opportunities to show top-selling products.
+
+### **Report Types**
+- A **report type** defines which objects and fields are available.
+- **Standard Report Types:** Predefined (e.g., Accounts, Leads).
+- **Custom Report Types:** Created to include specific objects/fields (e.g., "Leads with Activities").
+- **Primary vs. Related Objects:**  
+  - Primary: Main object (e.g., Leads).  
+  - Related: Connected objects (e.g., Activities).  
+
+---
+
+## **3. What is a Dashboard?**
+- A **dashboard** is a visual display of key metrics from reports.
+- **Components:**
+  - **Widgets:** Charts, tables, metrics, gauges.
+  - **Source Reports:** Each widget pulls data from one report.
+- **Types of Dashboards:**
+  - **Static:** Data visibility based on a single running user.
+  - **Dynamic:** Data adjusts based on the logged-in user’s permissions.
+
+### **Dashboard Builder Features**
+- **Widget Types:**  
+  - **Charts** (Bar, Line, Pie, Scatter).  
+  - **Tables** (Lightning, Legacy).  
+  - **Metrics** (Single value display).  
+  - **Gauges** (Value within a range).  
+- **Filtering:** Apply dashboard filters for interactive data exploration.
+
+---
+
+## **4. Organizing Reports and Dashboards**
+- **Folders:**  
+  - **Public, Hidden, or Shared.**  
+  - Control access via roles, permissions, or groups.  
+- **Best Practices:**  
+  - Store related reports/dashboards in the same folder.  
+  - Use dynamic dashboards for role-based visibility.  
+
+---
+
+## **5. Creating Reports with the Report Builder**
+### **Steps to Create a Report**
+1. **Select a Report Type** (e.g., Accounts, Opportunities).  
+2. **Apply Filters:**  
+   - **Standard Filters** (e.g., "Show Me: My Accounts").  
+   - **Field Filters** (e.g., "Type = Customer - Direct").  
+   - **Cross Filters** (e.g., "Accounts with Opportunities").  
+   - **Filter Logic** (e.g., "1 OR 2").  
+3. **Format the Report:**  
+   - **Tabular** (Simple list).  
+   - **Summary** (Grouped with subtotals).  
+   - **Matrix** (Row + Column grouping).  
+4. **Save & Run.**  
+
+### **Key Report Features**
+- **Outline Tab:** Group data (for Summary/Matrix reports).  
+- **Filters Tab:** Apply conditions.  
+- **Fields Panel:** Drag & drop fields into the report.  
+
+---
+
+## **6. Filtering Reports**
+### **Types of Filters**
+| Filter Type | Description | Example |
+|------------|------------|---------|
+| **Standard Filter** | Predefined filters (e.g., date range). | "Created Date: Last Month" |
+| **Field Filter** | Custom filters on fields. | "Stage = Closed Won" |
+| **Cross Filter** | Filter by related objects. | "Accounts WITH Opportunities" |
+| **Row Limit** | Restrict rows in tabular reports. | "Show top 10 by Amount" |
+| **Filter Logic** | Combine filters (AND/OR/NOT). | "(1 OR 2) AND 3" |
+
+### **Locking Filters**
+- Prevents users from changing filter values on the report run page.
+
+---
+
+## **7. Report Formats**
+| Format | Best For | Supports Charts? | Supports Dashboards? |
+|--------|----------|------------------|----------------------|
+| **Tabular** | Simple lists (e.g., mailing lists). | ❌ | ✅ (with row limit) |
+| **Summary** | Grouped data with subtotals. | ✅ | ✅ |
+| **Matrix** | Row + column summaries (e.g., revenue trends). | ✅ | ✅ |
+
+### **Examples**
+1. **Tabular Report:** List of Open Opportunities.  
+2. **Summary Report:** Cases grouped by Priority.  
+3. **Matrix Report:** Revenue by Product & Region.  
+
+---
+
+## **8. Creating Dashboards**
+### **Steps to Build a Dashboard**
+1. **Create a Source Report** (e.g., Leads by Lead Source).  
+2. **Open Dashboard Builder** → **New Dashboard**.  
+3. **Add Widgets** (Chart, Table, Metric, Gauge).  
+4. **Customize Layout** (Drag & resize widgets).  
+5. **Save & Share.**  
+
+### **Dynamic Dashboards**
+- **Benefits:**  
+  - Each user sees data based on their permissions.  
+  - Reduces the need for multiple dashboards.  
+- **Setup:**  
+  - Set "View Dashboard As: The dashboard viewer."  
+
+### **Report Charts**
+- Alternative to dashboards: Add a chart directly to a report.  
+
+---
+
+## **9. Key Takeaways**
+- **Reports** = Data analysis (filter, group, calculate).  
+- **Dashboards** = Visual summaries (charts, tables, metrics).  
+- **Best Practices:**  
+  - Use **Summary** reports for most cases.  
+  - Use **Matrix** for complex comparisons.  
+  - **Dynamic dashboards** for role-based visibility.  
